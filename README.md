@@ -1,66 +1,49 @@
-## Foundry
+# Gas Optimization Examples
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+This repository is my collection of tests to explore different Solidity/EVM gas optimizations.
+I have put each optimization approach into tiers based on how complex/dangerous/obscure the approach is.
+Not all of these are actually optimizations, some "optimizations" cost the same or more, we're just seeing what works or not.
 
-Foundry consists of:
+There is one Solidity file per optimization, each containing an unoptimized and optimized contract. You can observe the savings yourself by running `forge test --gas-report`.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+The following is a list of what optimizations have been tested so far:
 
-## Documentation
+### Tier1
 
-https://book.getfoundry.sh/
+- Storage packing
+- Constants
+- Visibility (`public`/`external`/`internal`)
+- `calldata` vs `memory`
+- Caching storage
 
-## Usage
+### Tier2
 
-### Build
+- `++i` vs `i++`
+- Unchecked math
+- Batch functions
+- Skip zero storage initialize
+- `<` and `>` vs `!=`
 
-```shell
-$ forge build
-```
+### Tier3
 
-### Test
+- Todo
 
-```shell
-$ forge test
-```
+### Tier4
 
-### Format
+- Todo
 
-```shell
-$ forge fmt
-```
+### Tier5
 
-### Gas Snapshots
+- Todo
 
-```shell
-$ forge snapshot
-```
+### Tier6
 
-### Anvil
+- Just use Huff lmao
 
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+The following resources were used to help collect these optimizations:
+- https://0xmacro.com/blog/solidity-gas-optimizations-cheat-sheet/    
+- https://github.com/devanshbatham/Solidity-Gas-Optimization-Tips     
+- https://pbs.twimg.com/media/FNl1jsbXIAc76m7?format=jpg&name=large    
+- https://twitter.com/impliedvols/status/1572460030594781184/photo/2    
+- https://www.rareskills.io/post/9-dangerous-techniques-to-win-solidity-gas-optimization-contests    
+- https://github.com/jeffreyscholz/solidity-zero-finder-rust  
