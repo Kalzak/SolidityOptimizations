@@ -16,6 +16,7 @@ import "../src/Unchecked.sol";
 import "../src/Batch.sol";
 import "../src/Initialize.sol";
 import "../src/Comparison.sol";
+import "../src/MultipleData.sol";
 
 contract GasTest is Test {
 
@@ -23,7 +24,6 @@ contract GasTest is Test {
     // TIER 1
     //
 
-    /*
     // Saves
     function testPacking() public {
         PackingGood good = new PackingGood();
@@ -71,7 +71,6 @@ contract GasTest is Test {
         CachingBad bad = new CachingBad();
         bad.interact(12);
     }
-    */
 
     //
     // TIER 2
@@ -148,5 +147,41 @@ contract GasTest is Test {
         ComparisonBad bad = new ComparisonBad();
         bad.interact(12);
     }
+
+    function testMultipleData() public {
+        address[] memory users = new address[](3);
+        uint256[] memory favnums = new uint256[](3);
+        uint256[] memory leastfavnums = new uint256[](3);
+        users[0] = address(0x1234);
+        users[1] = address(0x2345);
+        users[2] = address(0x3456);
+        favnums[0] = 1;
+        favnums[1] = 2;
+        favnums[2] = 3;
+        leastfavnums[0] = 4;
+        leastfavnums[1] = 5;
+        leastfavnums[2] = 6;
+
+        MultipleDataGood.MultipleDataInput[] memory data = new MultipleDataGood.MultipleDataInput[](3);
+        data[0].user = address(0x1234);
+        data[1].user = address(0x2345);
+        data[2].user = address(0x3456);
+        data[0].favnum = 1;
+        data[1].favnum = 2;
+        data[2].favnum = 3;
+        data[0].leastfavnum = 4;
+        data[1].leastfavnum = 5;
+        data[2].leastfavnum = 6;
+
+        MultipleDataGood good = new MultipleDataGood();
+        good.interact(data);
+
+        MultipleDataBad bad = new MultipleDataBad();
+        bad.interact(users, favnums, leastfavnums);
+    }
+
+    //
+    // TIER 3
+    //
 
 }
