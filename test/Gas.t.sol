@@ -18,7 +18,13 @@ import "../src/Initialize.sol";
 import "../src/Comparison.sol";
 import "../src/MultipleData.sol";
 
+// T3
+import "../src/Offchain.sol";
+import "../src/Events.sol";
+
 contract GasTest is Test {
+
+    /*
 
     //
     // TIER 1
@@ -180,8 +186,52 @@ contract GasTest is Test {
         bad.interact(users, favnums, leastfavnums);
     }
 
+    */
+
     //
     // TIER 3
     //
 
+    // Saves
+    function testOffchain() public {
+        uint256[] memory inputs = new uint256[](10);
+        inputs[0] = 0;
+        inputs[1] = 1;
+        inputs[2] = 2;
+        inputs[3] = 3;
+        inputs[4] = 4;
+        inputs[5] = 5;
+        inputs[6] = 6;
+        inputs[7] = 7;
+        inputs[8] = 8;
+        inputs[9] = 9;
+        OffchainGood good = new OffchainGood();
+        good.interact(inputs);
+
+        inputs[0] = 10;
+        inputs[1] = 9;
+        inputs[2] = 8;
+        inputs[3] = 7;
+        inputs[4] = 6;
+        inputs[5] = 5;
+        inputs[6] = 4;
+        inputs[7] = 3;
+        inputs[8] = 2;
+        inputs[9] = 1;
+        OffchainBad bad = new OffchainBad();
+        bad.interact(inputs);
+    }
+
+    function testEvents() public {
+        uint256 value = 12;
+        string memory word = "hello";
+
+        EventsGood good = new EventsGood();
+        good.interactWord(word);
+        good.interactValue(value);
+
+        EventsBad bad = new EventsBad();
+        bad.interactWord(word);
+        bad.interactValue(value);
+    }
 }
