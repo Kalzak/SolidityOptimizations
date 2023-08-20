@@ -10,7 +10,7 @@ contract InitializeBad {
 
     Status public status;
 
-    function interact(uint256 input) external returns (uint256) {
+    function interact() external returns (uint256) {
         return 12;
     }
 }
@@ -24,7 +24,7 @@ contract InitializeGood {
 
     Status public status;
 
-    function interact(uint256 input) external returns (uint256) {
+    function interact() external returns (uint256) {
         status = Status.Default;
         return 12;
     }

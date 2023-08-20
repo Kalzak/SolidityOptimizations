@@ -21,6 +21,19 @@ import "../src/MultipleData.sol";
 // T3
 import "../src/Offchain.sol";
 import "../src/Events.sol";
+import "../src/Require.sol";
+import "../src/Word.sol";
+import "../src/ShortCircuit.sol";
+import "../src/DontCache.sol";
+
+// T4
+import "../src/Bitwise.sol";
+import "../src/Swap.sol";
+import "../src/Constructor.sol";
+import "../src/FunctionName.sol";
+
+// T5
+import "../src/Gasleft.sol";
 
 contract GasTest is Test {
 
@@ -135,10 +148,10 @@ contract GasTest is Test {
     // Saves
     function testInitialize() public {
         InitializeGood good = new InitializeGood();
-        good.interact(12);
+        good.interact();
 
         InitializeBad bad = new InitializeBad();
-        bad.interact(12);
+        bad.interact();
     }
 
     // Saves
@@ -179,14 +192,11 @@ contract GasTest is Test {
         data[1].leastfavnum = 5;
         data[2].leastfavnum = 6;
 
-        MultipleDataGood good = new MultipleDataGood();
-        good.interact(data);
+        MultipleDataGood good = new MultipleDataGood(); good.interact(data);
 
         MultipleDataBad bad = new MultipleDataBad();
         bad.interact(users, favnums, leastfavnums);
     }
-
-    */
 
     //
     // TIER 3
@@ -222,6 +232,7 @@ contract GasTest is Test {
         bad.interact(inputs);
     }
 
+    // Saves
     function testEvents() public {
         uint256 value = 12;
         string memory word = "hello";
@@ -234,4 +245,120 @@ contract GasTest is Test {
         bad.interactWord(word);
         bad.interactValue(value);
     }
+
+    // Saves
+    function testRequire() public {
+        uint256 value = 12;
+
+        RequireGood good = new RequireGood();
+        good.interact(value);
+
+        RequireBad bad = new RequireBad();
+        bad.interact(value);
+    }
+
+    // Saves
+    function testWord() public {
+        WordPlusPlusGood goodPlusPlus = new WordPlusPlusGood();
+        WordPlusEqualsGood goodPlusEquals = new WordPlusEqualsGood();
+
+        goodPlusPlus.interact();
+        goodPlusEquals.interact();
+
+        WordPlusPlusBad badPlusPlus = new WordPlusPlusBad();
+        WordPlusEqualsBad badPlusEquals = new WordPlusEqualsBad();
+
+        badPlusPlus.interact();
+        badPlusEquals.interact();
+    }
+
+    // Saves
+    function testShortcircuit() public {
+        ShortCircuitGood good = new ShortCircuitGood();
+        good.interact(true, false);
+
+        ShortCircuitBad bad = new ShortCircuitBad();
+        bad.interact(true, false);
+    }
+
+    // Saves
+    function testDontCache() public {
+        DontCacheGood good = new DontCacheGood();
+        good.interact();
+
+        DontCacheBad bad = new DontCacheBad();
+        bad.interact();
+    }
+    */
+
+    //
+    // TIER 4
+    //
+    
+    // Saves
+    // There are a lot of complexities to this optimization though
+    // If compiler may try to limit pushes by doing swap manipulation in stack
+    // This will actually cost more if this happens
+    // Also for mod the compiler already does this
+    function testBitwise() public {
+        BitwiseSoloGood goodSolo = new BitwiseSoloGood();
+        goodSolo.interact(44);
+
+        BitwiseSoloBad badSolo = new BitwiseSoloBad();
+        badSolo.interact(44);
+
+        BitwiseMultiGood goodMulti = new BitwiseMultiGood();
+        goodMulti.interact(44);
+
+        BitwiseMultiBad badMulti = new BitwiseMultiBad();
+        badMulti.interact(44);
+    }
+
+    // NotSaves
+    function testSwap() public {
+        SwapGood good = new SwapGood();
+        good.interact();
+
+        SwapBad bad = new SwapBad();
+        bad.interact();
+    }
+
+    // NotSaves
+    function testConstructor() public {
+        ConstructorGood good = new ConstructorGood{value: 1}();
+        good.interact();
+
+        ConstructorBad bad = new ConstructorBad();
+        bad.interact();
+    }
+
+    // Saves
+    // On EOA calls, it costs 4gas per zero byte of transaction data
+    // And costs 16 gas per nonzero byte of transaction data
+    // So mine for a function selector with three zero bytes
+    // Function selector transaction data costs go from `16 * 4` to `16 + (3 * 4)`
+    // Also deployment costs are cheaper, because bytecode smaller
+    function testFunctionName() public {
+        FunctionNameGood good = new FunctionNameGood();
+        good.interact_102C469(12, 24);
+
+        FunctionNameBad bad = new FunctionNameBad();
+        bad.interact(12, 24);
+    }
+
+    // Same principle for the Create2 mine an address with lots of zeroes for the same reason
+    // Not going to create a test for this because you can't observe it in tests, only eoa calls
+    
+    //
+    // TIER 5
+    //
+
+    function testGasleft() public {
+        GasleftGood good = new GasleftGood();
+        good.interact(12, 999);
+
+        GasleftBad bad = new GasleftBad();
+        bad.interact(12, 999);
+    }
+
 }
