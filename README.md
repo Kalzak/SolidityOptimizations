@@ -50,6 +50,8 @@ The following is a list of what optimizations have been tested so far:
 
 - Just use Huff lmao
 
+---
+
 The following resources were used to help collect these optimizations:
 - https://0xmacro.com/blog/solidity-gas-optimizations-cheat-sheet/    
 - https://github.com/devanshbatham/Solidity-Gas-Optimization-Tips     
