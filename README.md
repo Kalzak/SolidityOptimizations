@@ -23,18 +23,28 @@ The following is a list of what optimizations have been tested so far:
 - Batch functions
 - Skip zero storage initialize
 - `<` and `>` vs `!=`
+- Structs vs arrays
 
 ### Tier3
 
-- Todo
+- Offchain calculations
+- Indexing events
+- Multiple vs single `require`
+- Word size types vs smaller types
+- Short circuits
+- Not caching
 
 ### Tier4
 
-- Todo
+- Bitwise manipulations
+- Inline swaps vs temp variable
+- Payable constructor
+- Mining function selectors
+- Mining deployment addresses
 
 ### Tier5
 
-- Todo
+- Gasleft branching
 
 ### Tier6
 

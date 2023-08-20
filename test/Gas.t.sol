@@ -355,10 +355,10 @@ contract GasTest is Test {
 
     function testGasleft() public {
         GasleftGood good = new GasleftGood();
-        good.interact(12, 999);
+        good.interact(12, 1000);
 
         GasleftBad bad = new GasleftBad();
-        bad.interact(12, 999);
+        bad.interact(12, 1000);
     }
 
 }
