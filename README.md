@@ -28,22 +28,22 @@ The following is a list of what optimizations have been tested so far:
 ### Tier3
 
 - Offchain calculations
-- Indexing events
 - Multiple vs single `require`
 - Word size types vs smaller types
 - Short circuits
-- Not caching
 
 ### Tier4
 
-- Bitwise manipulations
+- Indexing events
+- Not caching
 - Inline swaps vs temp variable
 - Payable constructor
-- Mining function selectors
-- Mining deployment addresses
 
 ### Tier5
 
+- Mining function selectors
+- Mining deployment addresses
+- Bitwise manipulations
 - Gasleft branching
 
 ### Tier6

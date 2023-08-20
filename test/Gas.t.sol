@@ -27,17 +27,15 @@ import "../src/ShortCircuit.sol";
 import "../src/DontCache.sol";
 
 // T4
-import "../src/Bitwise.sol";
 import "../src/Swap.sol";
 import "../src/Constructor.sol";
 import "../src/FunctionName.sol";
 
 // T5
+import "../src/Bitwise.sol";
 import "../src/Gasleft.sol";
 
 contract GasTest is Test {
-
-    /*
 
     //
     // TIER 1
@@ -233,20 +231,6 @@ contract GasTest is Test {
     }
 
     // Saves
-    function testEvents() public {
-        uint256 value = 12;
-        string memory word = "hello";
-
-        EventsGood good = new EventsGood();
-        good.interactWord(word);
-        good.interactValue(value);
-
-        EventsBad bad = new EventsBad();
-        bad.interactWord(word);
-        bad.interactValue(value);
-    }
-
-    // Saves
     function testRequire() public {
         uint256 value = 12;
 
@@ -281,6 +265,24 @@ contract GasTest is Test {
         bad.interact(true, false);
     }
 
+    //
+    // TIER 4
+    //
+
+    // Saves
+    function testEvents() public {
+        uint256 value = 12;
+        string memory word = "hello";
+
+        EventsGood good = new EventsGood();
+        good.interactWord(word);
+        good.interactValue(value);
+
+        EventsBad bad = new EventsBad();
+        bad.interactWord(word);
+        bad.interactValue(value);
+    }
+
     // Saves
     function testDontCache() public {
         DontCacheGood good = new DontCacheGood();
@@ -289,12 +291,30 @@ contract GasTest is Test {
         DontCacheBad bad = new DontCacheBad();
         bad.interact();
     }
-    */
-
-    //
-    // TIER 4
-    //
     
+    // NotSaves
+    function testSwap() public {
+        SwapGood good = new SwapGood();
+        good.interact();
+
+        SwapBad bad = new SwapBad();
+        bad.interact();
+    }
+
+    // NotSaves
+    function testConstructor() public {
+        ConstructorGood good = new ConstructorGood{value: 1}();
+        good.interact();
+
+        ConstructorBad bad = new ConstructorBad();
+        bad.interact();
+    }
+
+    
+    //
+    // TIER 5
+    //
+
     // Saves
     // There are a lot of complexities to this optimization though
     // If compiler may try to limit pushes by doing swap manipulation in stack
@@ -314,22 +334,13 @@ contract GasTest is Test {
         badMulti.interact(44);
     }
 
-    // NotSaves
-    function testSwap() public {
-        SwapGood good = new SwapGood();
-        good.interact();
+    // Saves
+    function testGasleft() public {
+        GasleftGood good = new GasleftGood();
+        good.interact(12, 1000);
 
-        SwapBad bad = new SwapBad();
-        bad.interact();
-    }
-
-    // NotSaves
-    function testConstructor() public {
-        ConstructorGood good = new ConstructorGood{value: 1}();
-        good.interact();
-
-        ConstructorBad bad = new ConstructorBad();
-        bad.interact();
+        GasleftBad bad = new GasleftBad();
+        bad.interact(12, 1000);
     }
 
     // Saves
@@ -348,17 +359,4 @@ contract GasTest is Test {
 
     // Same principle for the Create2 mine an address with lots of zeroes for the same reason
     // Not going to create a test for this because you can't observe it in tests, only eoa calls
-    
-    //
-    // TIER 5
-    //
-
-    function testGasleft() public {
-        GasleftGood good = new GasleftGood();
-        good.interact(12, 1000);
-
-        GasleftBad bad = new GasleftBad();
-        bad.interact(12, 1000);
-    }
-
 }
