@@ -12,7 +12,7 @@ The following is a list of what optimizations have been tested so far:
 
 - Storage packing
 - Constants
-- Visibility (`public`/`external`/`internal`)
+- Visibility (`public`/`external`/`internal`) **(NoSavings)**
 - `calldata` vs `memory`
 - Caching storage
 
@@ -36,8 +36,8 @@ The following is a list of what optimizations have been tested so far:
 
 - Indexing events
 - Not caching
-- Inline swaps vs temp variable
-- Payable constructor
+- Inline swaps vs temp variable **(NoSavings)**
+- Payable functions **(NoSavings)**
 
 ### Tier5
 
