@@ -10,7 +10,7 @@ The following is a list of what optimizations have been tested so far:
 
 ### Tier1
 
-|                                | Bad   | Good  | Improvement |
+| Optimization                   | Bad   | Good  | Improvement |
 |--------------------------------|-------|-------|-------------|
 | Storage packing                | 66538 | 22290 | Yes         |
 | Constants                      | 247   | 147   | Yes         |
@@ -20,33 +20,46 @@ The following is a list of what optimizations have been tested so far:
 
 ### Tier2
 
-- `++i` vs `i++`
-- Unchecked math
-- Batch functions
-- Skip zero storage initialize
-- `<` and `>` vs `!=`
-- Structs vs arrays
+| Optimization       | Bad    | Good   | Improvement |
+|--------------------|--------|--------|-------------|
+| `i++` vs `++i`     | 2202   | 2152   | Yes         |
+| Unchecked          | 2202   | 1612   | Yes         |
+| Batch              |        |        | Only EOA    |
+| Calldata vs memory | 2584   | 2545   | Yes         |
+| Structs vs arrays  | 136765 | 135974 | Yes         |
+| Unchecked          | 2202   | 1612   | Yes         |
 
 ### Tier3
 
-- Offchain calculations
-- Multiple vs single `require`
-- Word size types vs smaller types
-- Short circuits
+| Optimization           | Bad    | Good   | Improvement |
+|------------------------|--------|--------|-------------|
+| Offchain calculations  | 28290  | 5412   | Yes         |
+| Many vs single require | 295    | 270    | Yes         |
+| Short circuits         | 419    | 409    | Yes         |
+| Smaller datatypes `+=` | 279    | 258    | Yes         |
+| Smaller datatypes `++` | 272    | 252    | Yes         |
 
 ### Tier4
 
-- Indexing events
-- Not caching
-- Inline swaps vs temp variable **(NoSavings)**
-- Payable functions **(NoSavings)**
+| Optimization           | Bad    | Good   | Improvement |
+|------------------------|--------|--------|-------------|
+| Constructor            | 42381  | 42357  | Yes*        |
+| Not caching            | 1929   | 1918   | Yes         |
+| Emit string event      | 1350   | 1258   | Yes         |
+| Emit word event        | 2353   | 1930   | Yes         |
+| Inline swap vs tempvar | 170    | 170    | No          |
+
+\*Deployment cost
 
 ### Tier5
 
-- Mining function selectors
-- Mining deployment addresses
-- Bitwise manipulations
-- Gasleft branching
+| Optimization          | Bad     | Good    | Improvement |
+|-----------------------|---------|---------|-------------|
+| Bitwise recycle stack | 260     | 259     | Yes         |
+| Bitwise use once      | 243     | 241     | Yes         |
+| Function sig mining   |         |         | Only EOA    |
+| Create2 addr mining   |         |         | Only EOA    |
+| Gasleft branching     | 191321  | 116493  | Yes         |
 
 ### Tier6
 
