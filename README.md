@@ -10,11 +10,13 @@ The following is a list of what optimizations have been tested so far:
 
 ### Tier1
 
-- Storage packing
-- Constants
-- Visibility (`public`/`external`/`internal`) **(NoSavings)**
-- `calldata` vs `memory`
-- Caching storage
+|                                | Bad   | Good  | Improvement |
+|--------------------------------|-------|-------|-------------|
+| Storage packing                | 66538 | 22290 | Yes         |
+| Constants                      | 247   | 147   | Yes         |
+| Visibility (`pub`/`ext`/`pri`) | 478   | 478   | No          |
+| Calldata vs memory             | 23040 | 22885 | Yes         |
+| Caching                        | 3312  | 2323  | Yes         |
 
 ### Tier2
 
