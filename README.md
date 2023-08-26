@@ -25,7 +25,7 @@ The following is a list of what optimizations have been tested so far:
 | `i++` vs `++i`     | 2202   | 2152   | Yes         |
 | Unchecked          | 2202   | 1612   | Yes         |
 | Batch              |        |        | Only EOA    |
-| Calldata vs memory | 2584   | 2545   | Yes         |
+| Comparisons        | 2584   | 2545   | Yes         |
 | Structs vs arrays  | 136765 | 135974 | Yes         |
 | Unchecked          | 2202   | 1612   | Yes         |
 
